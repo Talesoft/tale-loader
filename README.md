@@ -25,8 +25,9 @@ Assuming the following structure:
         /Middleware.php
     /Db.php
     /Db/Table.php
-```php
+```
 
+do
 
 ```php
 use Tale\Loader;
