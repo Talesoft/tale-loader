@@ -1,0 +1,28 @@
+{
+    "name": "talesoft/tale-loader",
+    "type": "library",
+    "keywords": ["loader"],
+    "description": "A small and lightweight PSR-4 and PSR-0 compatible loader",
+    "license": "MIT",
+    "homepage": "http://docs.talesoft.io/tale-framework/tale/loader",
+    "authors": [
+        {
+            "name": "Talesoft",
+            "homepage": "http://talesoft.io",
+            "email": "info@talesoft.io"
+        },
+        {
+            "name": "Torben Koehn",
+            "email": "tk@talesoft.io"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tale\\": ""
+        }
+    }
+}
