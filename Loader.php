@@ -26,7 +26,7 @@ class Loader
      *
      * @var string|null
      */
-    private $_path;
+    private $path;
 
     /**
      * The namespace currently associated to the loader
@@ -34,28 +34,28 @@ class Loader
      *
      * @var string|null
      */
-    private $_nameSpace;
+    private $nameSpace;
 
     /**
      * The file name pattern used for this loader
      *
      * @var string
      */
-    private $_fileNamePattern;
+    private $pattern;
 
     /**
      * The handle given to spl_autoload_register
      *
      * @var callable
      */
-    private $_handle;
+    private $handle;
 
     /**
      * The flag that tells if the loader is registered or not
      *
      * @var bool
      */
-    private $_registered;
+    private $registered;
 
     /**
      * Creates a new auto-loader
@@ -69,10 +69,10 @@ class Loader
     public function __construct($path = null, $nameSpace = null, $fileNamePattern = null)
     {
 
-        $this->_path = $path;
-        $this->_nameSpace = $nameSpace;
-        $this->_fileNamePattern = $fileNamePattern ? $fileNamePattern : self::DEFAULT_PATTERN;
-        $this->_handle = [$this, 'load'];
+        $this->path = $path;
+        $this->nameSpace = $nameSpace;
+        $this->pattern = $fileNamePattern ? $fileNamePattern : self::DEFAULT_PATTERN;
+        $this->handle = [$this, 'load'];
     }
 
     /**
@@ -81,7 +81,7 @@ class Loader
     public function __destruct()
     {
 
-        if ($this->_registered)
+        if ($this->registered)
             $this->unregister();
     }
 
@@ -93,7 +93,7 @@ class Loader
     public function getPath()
     {
 
-        return $this->_path;
+        return $this->path;
     }
 
     /**
@@ -107,7 +107,7 @@ class Loader
     public function setPath($path)
     {
 
-        $this->_path = $path;
+        $this->path = $path;
 
         return $this;
     }
@@ -120,7 +120,7 @@ class Loader
     public function getNameSpace()
     {
 
-        return $this->_nameSpace;
+        return $this->nameSpace;
     }
 
     /**
@@ -134,7 +134,7 @@ class Loader
     public function setNameSpace($nameSpace)
     {
 
-        $this->_nameSpace = $nameSpace;
+        $this->nameSpace = $nameSpace;
 
         return $this;
     }
@@ -145,10 +145,10 @@ class Loader
      *
      * @return string
      */
-    public function getFileNamePattern()
+    public function getPattern()
     {
 
-        return $this->_fileNamePattern;
+        return $this->pattern;
     }
 
     /**
@@ -158,10 +158,10 @@ class Loader
      *
      * @return $this
      */
-    public function setFileNamePattern($fileNamePattern)
+    public function setPattern($fileNamePattern)
     {
 
-        $this->_fileNamePattern = $fileNamePattern;
+        $this->pattern = $fileNamePattern;
 
         return $this;
     }
@@ -174,7 +174,7 @@ class Loader
     public function getHandle()
     {
 
-        return $this->_handle;
+        return $this->handle;
     }
 
     /**
@@ -186,8 +186,8 @@ class Loader
     public function register()
     {
 
-        spl_autoload_register($this->_handle);
-        $this->_registered = true;
+        spl_autoload_register($this->handle);
+        $this->registered = true;
 
         return $this;
     }
@@ -201,8 +201,8 @@ class Loader
     public function unregister()
     {
 
-        spl_autoload_unregister($this->_handle);
-        $this->_registered = false;
+        spl_autoload_unregister($this->handle);
+        $this->registered = false;
 
         return $this;
     }
@@ -215,7 +215,7 @@ class Loader
     public function isRegistered()
     {
 
-        return $this->_registered;
+        return $this->registered;
     }
 
     /**
@@ -234,9 +234,9 @@ class Loader
     {
 
         $name = $className;
-        if ($this->_nameSpace) {
+        if ($this->nameSpace) {
 
-            $ns = rtrim($this->_nameSpace, '\\').'\\';
+            $ns = rtrim($this->nameSpace, '\\').'\\';
 
             $nameLen = strlen($className);
             $nsLen = strlen($ns);
@@ -248,8 +248,8 @@ class Loader
         }
 
         $ds = \DIRECTORY_SEPARATOR;
-        $path = $this->_path ? $this->_path.$ds : '';
-        $path .= str_replace(['_', '\\'], $ds, sprintf($this->_fileNamePattern, $name));
+        $path = $this->path ? $this->path.$ds : '';
+        $path .= str_replace(['_', '\\'], $ds, sprintf($this->pattern, $name));
 
         if (($path = stream_resolve_include_path($path)) !== false)
             include $path;
